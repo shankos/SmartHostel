@@ -18,6 +18,9 @@
         <a href="students">Students</a>
         <a href="rooms">Rooms</a>
         <a href="complaints">Complaints</a>
+        <a href="payments">Payments</a>
+        <a href="roomRequests">Room Requests</a>
+        <a href="users">Users</a>
         <a href="logout" class="btn-logout">Logout</a>
     </div>
 </nav>
@@ -56,6 +59,15 @@
         int totalStudents   = studentsForCount   != null ? studentsForCount.size()   : 0;
         int totalRooms      = roomsForCount      != null ? roomsForCount.size()      : 0;
         int totalComplaints = complaintsForCount != null ? complaintsForCount.size() : 0;
+
+        // Count pending complaints only
+        int pendingComplaints = 0;
+        if (complaintsForCount != null) {
+            for (Object obj : complaintsForCount) {
+                com.hostel.model.Complaint c = (com.hostel.model.Complaint) obj;
+                if ("Pending".equals(c.getStatus())) pendingComplaints++;
+            }
+        }
     %>
     <div class="dashboard-grid">
         <div class="stat-card" style="animation-delay:0.05s">
@@ -76,7 +88,7 @@
             <div class="stat-icon red">📋</div>
             <div class="stat-info">
                 <p>Open Complaints</p>
-                <h3 class="count-up" data-target="<%= totalComplaints %>">0</h3>
+                <h3 class="count-up" data-target="<%= pendingComplaints %>">0</h3>
             </div>
         </div>
         <div class="stat-card" style="animation-delay:0.20s">
@@ -94,20 +106,35 @@
             <h2>Management Modules</h2>
         </div>
         <div class="menu-grid">
-            <a href="students" class="menu-card" style="animation-delay:0.1s">
+            <a href="students" class="menu-card" style="animation-delay:0.08s">
                 <div class="menu-icon">👨‍🎓</div>
                 <span>Students</span>
                 <small>View &amp; manage residents</small>
             </a>
-            <a href="rooms" class="menu-card" style="animation-delay:0.15s">
+            <a href="rooms" class="menu-card" style="animation-delay:0.12s">
                 <div class="menu-icon">🚪</div>
                 <span>Rooms</span>
                 <small>Add, edit &amp; assign rooms</small>
             </a>
-            <a href="complaints" class="menu-card" style="animation-delay:0.20s">
+            <a href="complaints" class="menu-card" style="animation-delay:0.16s">
                 <div class="menu-icon">📋</div>
                 <span>Complaints</span>
                 <small>Review &amp; resolve issues</small>
+            </a>
+            <a href="payments" class="menu-card" style="animation-delay:0.20s">
+                <div class="menu-icon">💳</div>
+                <span>Payments</span>
+                <small>Track fee payment status</small>
+            </a>
+            <a href="roomRequests" class="menu-card" style="animation-delay:0.24s">
+                <div class="menu-icon">📬</div>
+                <span>Room Requests</span>
+                <small>Approve or deny requests</small>
+            </a>
+            <a href="users" class="menu-card" style="animation-delay:0.28s">
+                <div class="menu-icon">👤</div>
+                <span>Users</span>
+                <small>View registered accounts</small>
             </a>
         </div>
     </div>
@@ -119,7 +146,6 @@
 </footer>
 
 <script>
-    /* ── Animated Count-Up Numbers ───────────────── */
     document.querySelectorAll('.count-up').forEach(function(el) {
         const target  = parseInt(el.getAttribute('data-target'), 10) || 0;
         if (target === 0) { el.textContent = '0'; return; }
@@ -133,7 +159,6 @@
         }, step);
     });
 
-    /* Auto-dismiss alerts */
     var alertBox = document.getElementById('alertBox');
     if (alertBox) {
         setTimeout(function() {

@@ -1,6 +1,7 @@
 package com.hostel.controller;
 
 import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -27,6 +28,10 @@ public class StudentHomeServlet extends HttpServlet {
             }
 
             request.setAttribute("userEmail", session.getAttribute("userEmail"));
+
+            // Pass room list so student can view available rooms
+            request.setAttribute("roomList", RoomServlet.getRoomList());
+
             request.getRequestDispatcher("WEB-INF/pages/studentHome.jsp").forward(request, response);
 
         } catch (Exception e) {

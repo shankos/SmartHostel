@@ -122,8 +122,8 @@
             this.classList.remove('input-error');
             document.getElementById(id + 'Error').classList.remove('show');
         });
-    });
-
+    });\
+    
     /* ── Toggle Password Visibility ─────────────── */
     function togglePassword(inputId, btn) {
         const input = document.getElementById(inputId);
